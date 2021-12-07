@@ -29,7 +29,7 @@ const Album = () => {
           <TimingIcon fill="#a3a3a3" />
         </div>
         <div className="album__titles-containner">
-          <Title />
+          <Title on={true} />
           <Title />
           <Title />
           <Title />
