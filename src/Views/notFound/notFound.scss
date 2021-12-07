@@ -12,6 +12,7 @@
   h1 {
     font-size: 4em;
     margin-top: 4em;
+    text-align: center;
   }
 
   button {
@@ -24,5 +25,15 @@
     font-weight: 600;
     border-radius: 40px;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
+  }
+
+  @media screen and (max-width: 400px) {
+    h1 {
+      font-size: 3em;
+    }
   }
 }

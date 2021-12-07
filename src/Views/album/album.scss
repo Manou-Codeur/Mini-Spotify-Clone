@@ -1,5 +1,5 @@
 .album {
-  height: 100vh;
+  min-height: 100vh;
   background: rgb(2, 0, 36);
   background: linear-gradient(
     0deg,
@@ -74,5 +74,9 @@
     &-containner {
       padding: 0.5em 2em;
     }
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 13px;
   }
 }
