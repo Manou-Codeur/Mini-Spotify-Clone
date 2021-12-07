@@ -1,5 +1,10 @@
 .home {
-  background-color: #121212;
+  background: rgb(0, 4, 36);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 4, 36, 1) 85%,
+    rgba(173, 117, 78, 1) 100%
+  );
 
   .popularAlbums,
   .recent {
@@ -16,5 +21,9 @@
       display: flex;
       flex-wrap: wrap;
     }
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 13px;
   }
 }
