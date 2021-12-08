@@ -1,3 +1,5 @@
+@import "../../Assets/scss/vars&mixins.scss";
+
 .album {
   min-height: 100vh;
   background: rgb(2, 0, 36);
@@ -63,8 +65,8 @@
     padding: 0 2em;
 
     &-header {
-      color: #a3a3a3;
-      border-bottom: 1px solid #a3a3a3;
+      color: $gray;
+      border-bottom: 1px solid $gray;
       font-weight: 600;
       padding: 0.7em 2em;
       display: flex;
@@ -72,7 +74,7 @@
     }
 
     &-containner {
-      padding: 0.5em 2em;
+      padding: 0.5em 0;
     }
   }
 
