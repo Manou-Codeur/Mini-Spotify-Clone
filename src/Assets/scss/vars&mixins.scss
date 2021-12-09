@@ -1,0 +1,16 @@
+$green: #15883e;
+$gray: #a3a3a3;
+
+@mixin greenBtn {
+  button {
+    margin-top: 2em;
+    background-color: $green;
+    color: white;
+    border: 0;
+    padding: 1.2em 6em;
+    font-size: 0.9em;
+    font-weight: 600;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+}

@@ -1,12 +1,12 @@
 import AlbumItem from "../../../Components/albumItem/albumItem";
 
-const PopularAlbums = () => {
+const PopularAlbums = ({ albums }) => {
   return (
     <div className="popularAlbums">
       <h2>Popular Albums</h2>
       <div className="popularAlbums__containner">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-          <AlbumItem key={item} />
+        {albums.map((album, index) => (
+          <AlbumItem key={index} data={album} />
         ))}
       </div>
     </div>
