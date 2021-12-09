@@ -12,5 +12,9 @@ $gray: #a3a3a3;
     font-weight: 600;
     border-radius: 40px;
     cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }

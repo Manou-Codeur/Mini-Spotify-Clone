@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -5,7 +6,9 @@ import Input from "./../../../Components/input/input";
 
 import { singupSchema } from "./signUpSchemas";
 
-const SignUp = ({ history }) => {
+const SignUp = ({ history, firebase }) => {
+  const [registering, setRegistering] = useState(false);
+
   const { handleSubmit, touched, errors, handleChange, values, handleBlur } =
     useFormik({
       initialValues: { email: "", password: "", confirmPassword: "", name: "" },
@@ -15,8 +18,31 @@ const SignUp = ({ history }) => {
 
   const goSignIn = () => history.push("/auth");
 
-  const handleOnSubmit = values => {
-    console.log(values);
+  const handleOnSubmit = async ({ email, password, name }) => {
+    try {
+      setRegistering(true);
+      const data = await firebase.doCreateUserWithEmailAndPassword(
+        email,
+        password
+      );
+      //store the json web token in the localstorage
+      localStorage.setItem(
+        "user-authed",
+        JSON.stringify(
+          data.user.ya.split(".")[0] + "." + data.user.ya.split(".")[1]
+        )
+      );
+      //add the new user to database
+      await firebase.addUser({
+        uid: data.user.uid,
+        name,
+        email,
+      });
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+    setRegistering(false);
   };
 
   return (
@@ -61,7 +87,12 @@ const SignUp = ({ history }) => {
         touched={touched.name}
         errors={errors.name}
       />
-      <button onClick={handleSubmit}>SIGN UP</button>
+      <button
+        onClick={handleSubmit}
+        disabled={registering || Object.keys(errors).length > 0}
+      >
+        {registering ? "SIGNING UP..." : "SIGN UP"}
+      </button>
       <div className="signUp__goLogIn">
         Already member? <span onClick={goSignIn}>Log In</span>.
       </div>

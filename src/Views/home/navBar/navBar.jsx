@@ -6,11 +6,16 @@ import { ReactComponent as Logo } from "../../../Assets/imgs/logo.svg";
 
 import "./navBar.scss";
 
-const NavBar = forwardRef(({ onSearch }, ref) => {
+const NavBar = forwardRef(({ onSearch, userAuthed }, ref) => {
   const history = useContext(historyContext);
 
   const goToSignIn = () => history.push("/auth");
   const goToSignUp = () => history.push("/auth/signUp");
+
+  const doSignOut = () => {
+    localStorage.removeItem("user-authed");
+    window.location.reload();
+  };
 
   return (
     <div className="navBar" onKeyUp={onSearch}>
@@ -25,13 +30,13 @@ const NavBar = forwardRef(({ onSearch }, ref) => {
         />
       </div>
       <div className="navBar__btns">
-        {true ? (
+        {!userAuthed ? (
           <>
             <button onClick={goToSignUp}>Sign Up</button>
             <button onClick={goToSignIn}>Log In</button>
           </>
         ) : (
-          <button>Log Out</button>
+          <button onClick={doSignOut}>Log Out</button>
         )}
       </div>
       <div className="navBar__mobile">

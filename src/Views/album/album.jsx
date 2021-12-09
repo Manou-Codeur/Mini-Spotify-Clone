@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import jwtGenerator from "jwt-decode";
 
 import Title from "./title/title";
 import { ReactComponent as TimingIcon } from "../../Assets/imgs/time-icon.svg";
+import FirebaseContext from "./../../Services/firebase/firebaseContext";
 
 import { getAlbum } from "../../Services/httpServices";
 import {
@@ -19,13 +21,26 @@ const Album = ({
   const [album, setAlbum] = useState(null);
   const [httpErrors, setHttpErrors] = useState(null);
 
+  const firebase = useContext(FirebaseContext);
+
   useEffect(() => {
+    //check if the user is authenticated then save the id in firebase db
+    try {
+      const { user_id, aud } = jwtGenerator(
+        JSON.parse(localStorage.getItem("user-authed"))
+      );
+
+      if (aud !== "mini-spotify-clone") throw new Error();
+
+      firebase.addRecentAlbum(user_id, id);
+    } catch (error) {}
+
     getAlbum(id)
       .then(data => setAlbum(data))
       .catch(err => setHttpErrors(err));
   }, []);
 
-  if (!album) return <h1>wait</h1>;
+  if (!album) return <h1>Please wait...</h1>;
   else {
     const { images, name, artists, release_date, total_tracks, tracks } = album;
     return (

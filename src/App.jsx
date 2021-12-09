@@ -10,6 +10,7 @@ import { getPopularAlbums } from "./Services/httpServices";
 
 const App = () => {
   const [albums, setAlbums] = useState([]);
+  const [recentAlbums, setRecentAlbums] = useState([]);
   const [httpErrors, setHttpErrors] = useState(null);
 
   useEffect(() => {
@@ -26,7 +27,16 @@ const App = () => {
           path="/home"
           exact
           render={props => (
-            <Home {...props} state={{ setAlbums, setHttpErrors, albums }} />
+            <Home
+              {...props}
+              state={{
+                setAlbums,
+                setHttpErrors,
+                albums,
+                recentAlbums,
+                setRecentAlbums,
+              }}
+            />
           )}
         />
         <Route path="/auth" component={Auth} />

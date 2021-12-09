@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import Input from "../../../Components/input/input";
-import Form from "./../../../Components/form/form";
 import { singinSchema } from "./signInSchemas";
 
 const SignIn = ({ history, firebase }) => {
+  const [logging, setLogging] = useState(false);
+
   const { handleSubmit, touched, errors, handleChange, values, handleBlur } =
     useFormik({
       initialValues: { email: "", password: "" },
@@ -15,8 +17,22 @@ const SignIn = ({ history, firebase }) => {
 
   const goToSignUp = () => history.push("/auth/signUp");
 
-  const handleOnSubmit = values => {
-    console.log(values);
+  const handleOnSubmit = async ({ email, password }) => {
+    setLogging(true);
+    try {
+      const data = await firebase.doSignInWithEmailAndPassword(email, password);
+      //store the json web token in the localstorage
+      localStorage.setItem(
+        "user-authed",
+        JSON.stringify(
+          data.user.ya.split(".")[0] + "." + data.user.ya.split(".")[1]
+        )
+      );
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+    setLogging(false);
   };
 
   return (
@@ -42,7 +58,12 @@ const SignIn = ({ history, firebase }) => {
         errors={errors.password}
       />
       <span className="signIn__passReset">Forget your password ?</span>
-      <button onClick={handleSubmit}>LOG IN</button>
+      <button
+        onClick={handleSubmit}
+        disabled={logging || Object.keys(errors).length > 0}
+      >
+        {logging ? "LOGGING..." : "LOGIN"}
+      </button>
       <div className="signIn__register">
         You are not member yet? <span onClick={goToSignUp}>Register now</span>.
       </div>
@@ -50,4 +71,4 @@ const SignIn = ({ history, firebase }) => {
   );
 };
 
-export default Form(SignIn);
+export default SignIn;

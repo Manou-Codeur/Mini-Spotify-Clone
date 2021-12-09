@@ -65,3 +65,17 @@ export const searchAlbums = async artist => {
   const data = await result.json();
   return data;
 };
+
+export const getRecentAlbums = async ids => {
+  const token = await getToken();
+  const result = await fetch(
+    `https://api.spotify.com/v1/albums?ids=${ids.join()}`,
+    {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  const data = await result.json();
+  return data;
+};
