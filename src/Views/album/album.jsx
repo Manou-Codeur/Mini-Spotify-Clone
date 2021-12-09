@@ -40,6 +40,7 @@ const Album = ({
       .catch(err => setHttpErrors(err));
   }, []);
 
+  if (httpErrors) throw new Error(httpErrors);
   if (!album) return <h1>Please wait...</h1>;
   else {
     const { images, name, artists, release_date, total_tracks, tracks } = album;

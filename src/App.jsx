@@ -19,6 +19,7 @@ const App = () => {
       .catch(err => setHttpErrors(err));
   }, []);
 
+  if (httpErrors) throw new Error(httpErrors);
   return (
     <>
       <Switch>
