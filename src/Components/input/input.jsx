@@ -1,10 +1,11 @@
 import "./input.scss";
 
-const Input = ({ label, type, value, onChange }) => {
+const Input = ({ label, touched, errors, ...rest }) => {
   return (
     <div className="input-comp">
       <label htmlFor={label}>{label}</label>
-      <input type={type} value={value} onChange={onChange} id={label} />
+      <input {...rest} id={label} />
+      <div className="input-comp__error">{touched && errors}</div>
     </div>
   );
 };

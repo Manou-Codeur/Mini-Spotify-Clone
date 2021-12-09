@@ -1,11 +1,17 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 
+import historyContext from "./../../../contexts/historyContext";
 import { ReactComponent as SearchIcon } from "../../../Assets/imgs/search-icon.svg";
 import { ReactComponent as Logo } from "../../../Assets/imgs/logo.svg";
 
 import "./navBar.scss";
 
 const NavBar = forwardRef(({ onSearch }, ref) => {
+  const history = useContext(historyContext);
+
+  const goToSignIn = () => history.push("/auth");
+  const goToSignUp = () => history.push("/auth/signUp");
+
   return (
     <div className="navBar" onKeyUp={onSearch}>
       <Logo className="navBar__logo" fill="white" />
@@ -19,17 +25,18 @@ const NavBar = forwardRef(({ onSearch }, ref) => {
         />
       </div>
       <div className="navBar__btns">
-        {true && (
+        {true ? (
           <>
-            <button>Sign Up</button>
-            <button>Log In</button>
+            <button onClick={goToSignUp}>Sign Up</button>
+            <button onClick={goToSignIn}>Log In</button>
           </>
+        ) : (
+          <button>Log Out</button>
         )}
-        {false && <button>Log Out</button>}
       </div>
-      <div className="navBar__menu">
-        <button>Sign Up</button>
-        <button>Log In</button>
+      <div className="navBar__mobile">
+        <button onClick={goToSignUp}>Sign Up</button>
+        <button onClick={goToSignIn}>Log In</button>
       </div>
     </div>
   );

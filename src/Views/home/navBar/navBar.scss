@@ -38,7 +38,7 @@
     align-items: center;
   }
 
-  &__menu {
+  &__mobile {
     display: none;
     flex-direction: row;
     align-items: center;
@@ -48,7 +48,7 @@
   }
 
   &__btns,
-  &__menu {
+  &__mobile {
     button {
       background: transparent;
       color: white;
@@ -69,7 +69,7 @@
   @media screen and (max-width: 550px) {
     flex-direction: column-reverse;
 
-    &__menu {
+    &__mobile {
       display: flex;
     }
 
