@@ -4,20 +4,30 @@ import * as Yup from "yup";
 
 import Input from "../../../Components/input/input";
 import { singinSchema } from "./signInSchemas";
+import { handleErrors } from "./../../../Services/firebase/errorHandling";
 
 const SignIn = ({ history, firebase }) => {
   const [logging, setLogging] = useState(false);
+  const [globalErrors, setGlobalErrors] = useState(null);
 
-  const { handleSubmit, touched, errors, handleChange, values, handleBlur } =
-    useFormik({
-      initialValues: { email: "", password: "" },
-      validationSchema: Yup.object(singinSchema),
-      onSubmit: values => handleOnSubmit(values),
-    });
+  const {
+    handleSubmit,
+    touched,
+    errors,
+    handleChange,
+    values,
+    handleBlur,
+    setErrors,
+  } = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: Yup.object(singinSchema),
+    onSubmit: values => handleOnSubmit(values),
+  });
 
   const goToSignUp = () => history.push("/auth/signUp");
 
   const handleOnSubmit = async ({ email, password }) => {
+    setGlobalErrors(null);
     setLogging(true);
     try {
       const data = await firebase.doSignInWithEmailAndPassword(email, password);
@@ -30,7 +40,7 @@ const SignIn = ({ history, firebase }) => {
       );
       history.push("/");
     } catch (error) {
-      console.log(error);
+      handleErrors("singin", error, setErrors, setGlobalErrors);
     }
     setLogging(false);
   };
@@ -64,6 +74,7 @@ const SignIn = ({ history, firebase }) => {
       >
         {logging ? "LOGGING..." : "LOGIN"}
       </button>
+      {globalErrors && <div style={{ color: "red" }}>{globalErrors}</div>}
       <div className="signIn__register">
         You are not member yet? <span onClick={goToSignUp}>Register now</span>.
       </div>
